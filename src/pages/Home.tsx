@@ -1,70 +1,54 @@
 import { Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import { Button, ButtonGroup } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import axios, { AxiosResponse } from "axios";
 
-type ActuatorLinks = {
+type ActuatorLink = {
   title: string;
   href: string;
   templated: boolean;
 };
 
-type P = {};
+type ActuatorLinks = [title: string, o: { href: string; templated: boolean }];
 
 const Home = () => {
-  const [data, setData] = useState<ActuatorLinks[]>([]);
+  const [data, setData] = useState<ActuatorLink[]>([]);
 
-  const fetchData = () => {
-    let result: ActuatorLinks[] = [];
-    fetch("http://localhost:5000/actuator")
-      .then((data) => data.json())
-      .then((data) => {
-        for (let entry of Object.entries(data._links)) {
-          const [title, { href, templated }] = entry;
-          //#ERROR Property 'href', 'templated' does not exist on type 'unknown'
-          result.push({ title, href, templated });
-        }
-      })
-      .catch((error) => console.log(error));
+  const fetchData = async () => {
+    let result: ActuatorLink[] = [];
+    try {
+      const response = await axios.get("http://localhost:5000/actuator");
+      const responseData = (await Object.entries(
+        response.data._links
+      )) as unknown as ActuatorLinks[];
 
-    setData((data) => result);
+      for (let link of responseData) {
+        const [title, { href, templated }] = link;
+        result.push({ title, href, templated });
+      }
+
+      setData((o) => result);
+    } catch (exception) {
+      console.log(exception);
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  //   return (
-  //     <Card >
-  //     <CardContent>
-  //       <Typography color="textSecondary" gutterBottom>
-  //         Word of the Day
-  //       </Typography>
-  //       <Typography variant="h5" component="h2">
-  //         {/* be{bull}nev{bull}o{bull}lent */}
-  //       </Typography>
-  //       <Typography color="textSecondary">
-  //         adjective
-  //       </Typography>
-  //       <Typography variant="body2" component="p">
-  //         well meaning and kindly.
-  //         <br />
-  //         {'"a benevolent smile"'}
-  //       </Typography>
-  //     </CardContent>
-  //     <CardActions>
-  //       <Button size="small">Learn More</Button>
-  //     </CardActions>
-  //   </Card>
-  //   )
-
   return (
     <div>
-        <Button color='primary'>some button</Button>
-      {data.map((obj, index: number) => (
-        <Button key={index} variant='outlined' color='primary'>{obj.title} </Button>
+      {data.map(({ title, href, templated }, index: number) => (
+        <ButtonGroup key={index}>
+          <Button variant="outlined" color="primary" size="small">
+            {title}
+          </Button>
+          <Button>{templated ? "true" : "false"}</Button>
+        </ButtonGroup>
       ))}
     </div>
   );
