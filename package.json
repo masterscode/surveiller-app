@@ -3,12 +3,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "tailwind-build":"tailwind -i src/style/tailwind.css -o src/style/style.css"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.0",
-    "@material-ui/icons": "^4.11.2",
-    "@types/material-ui": "^0.21.9",
     "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -19,6 +17,9 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@vitejs/plugin-react-refresh": "^1.3.1",
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7",
     "typescript": "^4.3.2",
     "vite": "^2.4.0"
   }

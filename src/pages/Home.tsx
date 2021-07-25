@@ -1,9 +1,4 @@
-import { Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Button, ButtonGroup } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import axios, { AxiosResponse } from "axios";
 
 type ActuatorLink = {
@@ -37,19 +32,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   return (
     <div>
-      {data.map(({ title, href, templated }, index: number) => (
-        <ButtonGroup key={index}>
-          <Button variant="outlined" color="primary" size="small">
-            {title}
-          </Button>
-          <Button>{templated ? "true" : "false"}</Button>
-        </ButtonGroup>
-      ))}
+      hello world
     </div>
   );
 };
