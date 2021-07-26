@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
+import { SideBar } from "../components/SideBar";
 
 type ActuatorLink = {
   title: string;
@@ -36,9 +37,24 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      hello world
-    </div>
+    <section className="md:flex justify-evenly h-screen overflow-y-hidden">
+      <SideBar />
+
+      <div className="bg-white shadow w-full rounded p-3 grid md:grid-cols-5 md:grid-rows-5 overflow-y-scroll">
+        <div className="col-span-full rounded md:border ">
+          <div className="search-box border p-3 rounded active:border-8 text-lg m-1 flex ">
+            <input
+              type="search"
+              // value=""
+              className="outline-none w-full"
+              placeholder="Search Here"
+            />
+            <i className="bi-search text-gray-700"></i>
+          </div>
+        </div>
+        <div className="bg-gray-100 rounded w-auto p-3">card</div>
+      </div>
+    </section>
   );
 };
 

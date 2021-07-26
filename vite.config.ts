@@ -24,10 +24,10 @@ export default defineConfig({
     global: "window", // fix for packages that support both node and browser
   },
   optimizeDeps: {
-    include: [
-        '@material-ui/core',
-        '@material-ui/icons',
-        '@material-ui/styles',
-    ],
+    // include: [
+    //     '@material-ui/core',
+    //     '@material-ui/icons',
+    //     '@material-ui/styles',
+    // ],
 },
 })
