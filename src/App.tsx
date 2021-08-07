@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 function App() {
 
   return (
-    <section className='rounded m-3 p-2 bg-gray-100 transition-all ease-in'>
+    <section className='transition-all ease-in'>
       <Routes />
     </section>
   );

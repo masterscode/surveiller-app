@@ -1,58 +1,34 @@
 import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-import { SideBar } from "../components/SideBar";
+import { AppInfo } from "../components/AppInfo";
+import { ActuatorEndpoint } from "../components/ActuatorEndpoint";
+import { ActuatorLink } from '../@types/types';
+import { fetchBaseActuatorLinks } from "../services/home";
 
-type ActuatorLink = {
-  title: string;
-  href: string;
-  templated: boolean;
-};
-
-type ActuatorLinks = [title: string, o: { href: string; templated: boolean }];
 
 const Home = () => {
   const [data, setData] = useState<ActuatorLink[]>([]);
+  const excludeEndpoints:string[] = ['caches-cache','health','heapdump','self','health-path', 'shutdown','loggers-name', 'metrics-requiredMetricName','env-toMatch'];
 
-  const fetchData = async () => {
-    let result: ActuatorLink[] = [];
-    try {
-      const response = await axios.get("http://localhost:5000/actuator");
-      const responseData = (await Object.entries(
-        response.data._links
-      )) as unknown as ActuatorLinks[];
-
-      for (let link of responseData) {
-        const [title, { href, templated }] = link;
-        result.push({ title, href, templated });
-      }
-
-      setData((o) => result);
-    } catch (exception) {
-      console.log(exception);
-    }
-  };
+  const getActuatorLinks = async ()=>{
+    const resolvedLinks:ActuatorLink[] = await fetchBaseActuatorLinks();
+    setData(resolvedLinks);
+  }
 
   useEffect(() => {
-    // fetchData();
+    getActuatorLinks();
   }, []);
 
   return (
-    <section className="md:flex justify-evenly h-screen overflow-y-hidden">
-      <SideBar />
-
-      <div className="bg-white shadow w-full rounded p-3 grid md:grid-cols-5 md:grid-rows-5 overflow-y-scroll">
-        <div className="col-span-full rounded md:border ">
-          <div className="search-box border p-3 rounded active:border-8 text-lg m-1 flex ">
-            <input
-              type="search"
-              // value=""
-              className="outline-none w-full"
-              placeholder="Search Here"
-            />
-            <i className="bi-search text-gray-700"></i>
-          </div>
-        </div>
-        <div className="bg-gray-100 rounded w-auto p-3">card</div>
+    <section className="md:flex justify-evenly h-screen">
+      <div className="bg-white  shadow w-full rounded  overflow-y-scroll">
+         <AppInfo />
+        
+        <section className='p-1 border-t border-b'>
+          {data.filter(d => !excludeEndpoints.includes(d.title))
+          .map((link, index:number)=>( <ActuatorEndpoint key={index} {...link}/>
+          ))}
+        </section>
       </div>
     </section>
   );

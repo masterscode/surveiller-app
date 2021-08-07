@@ -1,6 +1,6 @@
 
 const config={
-    baseUrl : 'localhost:5000/actuator'
+    baseUrl : 'http://localhost:5000/actuator'
 }
 
 export {config}

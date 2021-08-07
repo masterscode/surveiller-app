@@ -9,7 +9,7 @@ type NavItem = {
 
 export const NavItem = ({icon, link}:NavItem) => {
   return (
-    <Link to ={`/${link}`} className="flex items-end py-3 px-2 rounded   hover:bg-gray-300  hover:text-gray-700  text-gray-500">
+    <Link to ={`/${link}`} className="flex items-end py-3 px-2 rounded  hover:bg-gray-300  hover:text-gray-700  text-gray-500">
       <div>
         <i className={`bi-${icon} text-2xl`}></i>
       </div>
